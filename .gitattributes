@@ -1,0 +1,4 @@
+# 统一换行：文本文件由 git 自动处理，二进制文件不参与转换
+* text=auto
+*.png binary
+*.ico binary

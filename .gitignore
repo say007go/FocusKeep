@@ -1,0 +1,12 @@
+# 编译产物
+bin/
+
+# 临时工具产物
+tools/*.exe
+
+# 编辑器 / 系统
+*.user
+*.suo
+.vs/
+Thumbs.db
+desktop.ini
