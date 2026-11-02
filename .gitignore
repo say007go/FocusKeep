@@ -13,3 +13,6 @@ HANDOFF.md
 .vs/
 Thumbs.db
 desktop.ini
+
+# 发布打包产物
+dist/
