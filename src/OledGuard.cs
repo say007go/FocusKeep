@@ -43,6 +43,7 @@ namespace FocusKeep
         public event EventHandler DismissRequested;
 
         private int _shownTicks;
+        private readonly System.Windows.Forms.Timer _topMostTimer;
 
         /// <summary>true 时忽略纯鼠标移动，只有点击/滚轮才算"用户要中断"。</summary>
         public bool IgnoreMoveDismiss { get; set; }
@@ -61,6 +62,46 @@ namespace FocusKeep
             DoubleBuffered = true;
             SetStyle(ControlStyles.Opaque, true);
             Bounds = SystemInformation.VirtualScreen;
+
+            // Win11 的任务栏本身也是"置顶"窗口，偶尔会重新压到遮罩上面
+            // （比如自动隐藏的任务栏被鼠标唤出）。显示期间每秒重申一次置顶，
+            // 保证任务栏也一起被盖住。
+            _topMostTimer = new System.Windows.Forms.Timer();
+            _topMostTimer.Interval = 1000;
+            _topMostTimer.Tick += delegate { KeepOnTop(); };
+        }
+
+        /// <summary>把遮罩重新顶到最前面（不抢焦点、不改大小）。</summary>
+        public void KeepOnTop()
+        {
+            if (!Visible || Handle == IntPtr.Zero) return;
+
+            SetWindowPos(Handle, HWND_TOPMOST, 0, 0, 0, 0,
+                SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER);
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+
+            if (_topMostTimer == null) return;
+            if (Visible) _topMostTimer.Start();
+            else _topMostTimer.Stop();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                try
+                {
+                    _topMostTimer.Stop();
+                    _topMostTimer.Dispose();
+                }
+                catch (Exception) { }
+            }
+
+            base.Dispose(disposing);
         }
 
         /// <summary>窗口显示时不激活（不抢前台焦点）。</summary>
