@@ -151,10 +151,11 @@ OLED 护屏 ▸
 
 位置按优先级自动挑选（会实际探测可写性，全失败才退化到临时目录）：
 
-1. 环境变量 `FOCUSKEEP_CONFIG_DIR` 指定的目录（便携模式）
-2. `%APPDATA%\FocusKeep\`
-3. exe 同目录的 `data\`
-4. `%TEMP%\FocusKeep\`
+1. 环境变量 `FOCUSKEEP_CONFIG_DIR` 指定的目录（脚本 / 便携模式显式指定）
+2. **exe 同目录已存在的 `data\`** —— 在 exe 旁边建一个 `data` 文件夹就是绿色 portable 版，配置跟着程序走
+3. `%APPDATA%\FocusKeep\`（标准位置）
+4. exe 同目录新建 `data\`（漫游配置不可写时兜底）
+5. `%TEMP%\FocusKeep\`（最后兜底）
 
 ```ini
 # MaxLockMinutes      : 键盘锁定硬超时（1-480 分钟），到点强制解锁
@@ -234,7 +235,7 @@ csc /nologo /target:exe /out:tools/make-ico.exe tools/MakeIcon.cs /reference:Sys
 ### 资源占用
 
 - 托盘图标四种状态在启动后懒加载一次，之后只切换引用，不重复渲染、不累积对象；
-- 菜单每次打开只重建有变化的项，旧项显式 Dispose，字体缓存复用，避免 GDI 句柄增长；
+- 托盘菜单是原生 Win32 菜单，每次打开只创建一组菜单句柄、关掉即销毁，不累积 GDI 对象（实测开关 10 次句柄数不变）；
 - OLED 护屏的定时器只在需要时运行（关闭 / 屏幕常亮关闭时直接停掉），平时 5 秒一跳，休息期间 250ms；
 - 启动 20 秒后做一次工作集回收，之后每 10 分钟一次，任务管理器里长期稳定在个位数 MB。
 
