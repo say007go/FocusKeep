@@ -437,10 +437,10 @@ namespace FocusKeep
         {
             string content =
                 "屏幕常亮 · 键盘锁定 · OLED 护屏\r\n" +
+                "开源软件 · MIT License\r\n" +
                 "\r\n" +
-                "开发者　圣婴\r\n" +
-                "微信　　say007go\r\n" +
-                "项目主页　" + ProjectUrl;
+                "作者：圣婴\r\n" +
+                "项目主页：" + ProjectUrl;
 
             string detail =
                 "热键\r\n" +

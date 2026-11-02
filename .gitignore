@@ -4,6 +4,9 @@ bin/
 # 临时工具产物
 tools/*.exe
 
+# 本地开发笔记（只在作者本机保留，不进仓库）
+HANDOFF.md
+
 # 编辑器 / 系统
 *.user
 *.suo
