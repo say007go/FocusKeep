@@ -2,9 +2,14 @@
 
 一个 Windows 托盘小工具：让屏幕保持常亮，需要时一键锁住键盘，并为 OLED 屏幕提供周期性的"护屏休息"。
 
-单文件 exe，无需安装、无需运行时，双击即用 · Windows 10 / 11 · MIT License
+单文件 exe，免安装、免配置，双击即用 · 适用于 Windows 10 / 11 · MIT License
 
-![四种状态](preview/icon-sheet.png)
+<p>
+  <img src="preview/icon-On.png" width="84" alt="屏幕常亮中">
+  <img src="preview/icon-Off.png" width="84" alt="屏幕常亮已关闭">
+  <img src="preview/icon-On-Locked.png" width="84" alt="屏幕常亮中 + 键盘已锁定">
+  <img src="preview/icon-Off-Locked.png" width="84" alt="已关闭 + 键盘已锁定">
+</p>
 
 蓝绿显示器 = 屏幕常亮中　·　灰色显示器 = 屏幕常亮已关闭　·　右下角红色小锁 = 键盘已锁定
 
